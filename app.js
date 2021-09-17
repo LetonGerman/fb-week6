@@ -6,7 +6,8 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
         res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,OPTIONS,DELETE');
         next();
     });
-    app.use(express.json())
+    app.use(express.json());
+    app.use(bodyParser.urlencoded({extended : false}));
     app.use(bodyParser.text());
 
     app.get('/login/', (req, res) => {
@@ -16,13 +17,13 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
     app.get('/code/', (req, res) => {
         res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
         createReadStream(import.meta.url.substring(7)).pipe(res);
-    })
+    });
 
     app.get('/sha1/:input', (req, res) => {
         var shasum = crypto.createHash('sha1');
         shasum.update(req.params.input);
         res.send(shasum.digest('hex'));
-    })
+    });
 
     app.get('/req/', (req, res) => {
 
@@ -45,7 +46,7 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
             res.send('no addr found');
         }
 
-    })
+    });
 
     app.post('/req/', (req, res) => {
         http.get(req.body.replace('addr=', ''), (get) => {
@@ -62,11 +63,25 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
           }).on("error", (err) => {
             res.send(data);
           });
-    })
+    });
+
+    app.post('/insert/', (req, res) => {
+        const uri = `mongodb+srv://${req.params.login}:${req.params.password}@${req.params.URL}`;
+        const client = new MongoClient(uri);
+        try {
+            await client.connect();
+        
+            await client.collection('users').insertOne({ login: req.params.login, password: req.params.password });
+         
+        } catch (e) {
+            console.error(e);
+        }
+        client.connect();
+    });
 
     app.all('*', (req, res) => {
         res.send('neveraskedfor');
-    })
+    });
 
     return app;
 }
