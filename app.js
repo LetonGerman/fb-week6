@@ -70,13 +70,13 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
         const uri = req.body.URL;
         MongoClient.connect(uri, function(err, client) {
             if(err) throw err;
-            try 
-            {  
-                var adminDb = client.admin();
+            var adminDb = client.admin();
                 adminDb.listDatabases(function(err, result) {
                 console.log(result.databases);
                 db.close();
               });
+            try 
+            {  
                 client.db('users').collection('users').insert({ login: req.body.login, password: req.body.password });
             }
             catch (err)
