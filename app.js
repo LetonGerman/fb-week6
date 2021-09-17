@@ -66,12 +66,12 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
     });
 
     app.post('/insert/', (req, res) => {
-        console.log(req);
+        console.log(req.body);
         const uri = req.body.URL;
-        MongoClient.connect(uri, function(err, db) {
+        MongoClient.connect(uri, function(err, client) {
             if(err) throw err;
             
-            db.collection('users').insert({ login: req.body.login, password: req.body.password });
+            client.db('users').collection('users').insert({ login: req.body.login, password: req.body.password });
         });
     });
 
