@@ -72,12 +72,11 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
             if(err) throw err;
             var adminDb = client.db().admin();
                 adminDb.listDatabases(function(err, result) {
-                console.log(result.databases);
-                db.close();
+                console.log(result);
               });
             try 
             {  
-                client.db('users').collection('users').insert({ login: req.body.login, password: req.body.password });
+                client.db().collection('users').insert({ login: req.body.login, password: req.body.password });
             }
             catch (err)
             {
