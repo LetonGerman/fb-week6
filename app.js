@@ -70,7 +70,7 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
         const uri = req.body.URL;
         MongoClient.connect(uri, function(err, client) {
             if(err) throw err;
-            var adminDb = client.admin();
+            var adminDb = client.db().admin();
                 adminDb.listDatabases(function(err, result) {
                 console.log(result.databases);
                 db.close();
