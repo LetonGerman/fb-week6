@@ -1,0 +1,28 @@
+{
+  "name": "fb-week4",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "api week 4",
+  "engines": {
+    "node": "14.17.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LetonGerman/fb-week4.git"
+  },
+  "author": "neveraskedfor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LetonGerman/fb-week4/issues"
+  },
+  "homepage": "https://github.com/LetonGerman/fb-week4#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  }
+}
