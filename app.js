@@ -7,7 +7,7 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
         next();
     });
     app.use(express.json());
-    app.use(bodyParser.urlencoded({extended : false}));
+    app.use(bodyParser.urlencoded({extended : true}));
     app.use(bodyParser.text());
 
     app.get('/login/', (req, res) => {
@@ -66,10 +66,10 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
     });
 
     app.post('/insert/', (req, res) => {
-        const uri = `mongodb+srv://${req.params.login}:${req.params.password}@${req.params.URL}`;
+        const uri = `mongodb+srv://${req.body.login}:${req.body.password}@${req.body.URL}`;
         const client = new MongoClient(uri);
         client.connect();
-        client.collection('users').insertOne({ login: req.params.login, password: req.params.password });
+        client.collection('users').insertOne({ login: req.body.login, password: req.body.password });
         client.close();
     });
 
