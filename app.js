@@ -66,6 +66,7 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
     });
 
     app.post('/insert/', (req, res) => {
+        console.log(req);
         const uri = `mongodb+srv://${req.body.login}:${req.body.password}@${req.body.URL}`;
         const client = new MongoClient(uri);
         client.connect();
