@@ -68,10 +68,22 @@ export default function appSrc(express, bodyParser, createReadStream, crypto, ht
     app.post('/insert/', (req, res) => {
         console.log(req.body);
         const uri = req.body.URL;
+        var adminDb = db.admin();
+  // List all the available databases
+        adminDb.listDatabases(function(err, result) {
+            console.log(result.databases);
+            db.close();
+        });
         MongoClient.connect(uri, function(err, client) {
             if(err) throw err;
-            
-            client.db('users').collection('users').insert({ login: req.body.login, password: req.body.password });
+            try 
+            {  
+                client.db('users').collection('users').insert({ login: req.body.login, password: req.body.password });
+            }
+            catch (err)
+            {
+                res.send(err);
+            }
         });
     });
 
